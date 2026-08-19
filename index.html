@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- SEO -->
+    <title>moods* — Choose a feeling. Press play. Enter the mood.</title>
+    <meta name="description" content="moods* is a cinematic music experience. Select a vibe, and the entire atmosphere transforms around a curated playlist. No browsing. Just feeling.">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://moods.example.com/">
+    <meta property="og:title" content="moods* — Music for every feeling">
+    <meta property="og:description" content="A visual world built around music. Choose a mood, press play, enter the vibe.">
+    <meta property="og:image" content="https://moods.example.com/assets/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://moods.example.com/">
+    <meta property="twitter:title" content="moods* — Music for every feeling">
+    <meta property="twitter:description" content="A visual world built around music. Choose a mood, press play, enter the vibe.">
+    <meta property="twitter:image" content="https://moods.example.com/assets/logo.png">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/backgrounds/aura-desktop.jpg" as="image" media="(min-width: 768px)">
+    <link rel="preload" href="assets/backgrounds/aura-mobile.jpg" as="image" media="(max-width: 767px)">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════
+         BACKGROUND LAYERS (cross-fade for images, video for motion)
+         ═══════════════════════════════════════════════════ -->
+    <div id="bg-back" class="bg-layer bg-layer--back" role="presentation"></div>
+    <div id="bg-front" class="bg-layer bg-layer--front" role="presentation"></div>
+    <video id="bg-video" class="bg-video" muted loop playsinline role="presentation"></video>
+    <div class="bg-overlay" role="presentation"></div>
+
+    <!-- ═══════════════════════════════════════════════════
+         TOP BAR
+         ═══════════════════════════════════════════════════ -->
+    <header class="top-bar" role="banner">
+        <!-- Logo -->
+        <a href="/" class="logo" aria-label="moods* — Home">
+            <span>moods</span><span class="logo-accent">*</span>
+        </a>
+
+        <!-- Live indicator -->
+        <div class="live-indicator" aria-label="Online listeners">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="live-count">— online</span>
+        </div>
+
+        <!-- Right actions -->
+        <nav class="top-actions" aria-label="External links and moods menu">
+            <button id="btn-next-bg" class="top-link" aria-label="Change Background" style="background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0; display:flex; align-items:center; gap:0.5rem;">
+                Change BG <span class="arrow" aria-hidden="true" style="transform:none; font-size:1.1em;">⟳</span>
+            </button>
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="top-link" aria-label="Open Spotify">
+                Spotify <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" class="top-link" aria-label="Open YouTube Music">
+                YouTube Music <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <button
+                id="moods-toggle"
+                class="moods-toggle"
+                aria-expanded="false"
+                aria-controls="moods-panel"
+                aria-label="Open moods menu"
+            >
+                MOODS <span class="toggle-icon" aria-hidden="true">+</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════
+         MOODS PANEL
+         ═══════════════════════════════════════════════════ -->
+    <div id="panel-backdrop" class="panel-backdrop" aria-hidden="true"></div>
+
+    <div
+        id="moods-panel"
+        class="moods-panel"
+        role="menu"
+        aria-label="Select a mood"
+    >
+        <div class="moods-panel-title" aria-hidden="true">MOODS</div>
+
+        <button class="mood-item active" data-mood="aura" role="menuitem">
+            <span class="mood-icon" aria-hidden="true">♛</span>
+            <span class="mood-label">AURA</span>
+        </button>
+
+        <button class="mood-item" data-mood="afterhours" role="menuitem">
+            <span class="mood-icon" aria-hidden="true">◐</span>
+            <span class="mood-label">AFTERHOURS</span>
+        </button>
+
+        <button class="mood-item" data-mood="affection" role="menuitem">
+            <span class="mood-icon" aria-hidden="true">♡</span>
+            <span class="mood-label">AFFECTION</span>
+        </button>
+
+        <button class="mood-item" data-mood="alive" role="menuitem">
+            <span class="mood-icon" aria-hidden="true">☼</span>
+            <span class="mood-label">ALIVE</span>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         YOUTUBE PLAYER (visible per API terms)
+         ═══════════════════════════════════════════════════ -->
+    <div class="yt-player-wrap" aria-label="YouTube video player">
+        <div id="yt-player"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MUSIC PLAYER
+         ═══════════════════════════════════════════════════ -->
+    <section class="player" role="region" aria-label="Music player">
+        <div class="player-inner">
+            <!-- Thumbnail -->
+            <div class="player-thumb">
+                <img
+                    id="player-thumb-img"
+                    src=""
+                    alt="Album artwork"
+                    style="display: none;"
+                    loading="lazy"
+                >
+                <div id="player-thumb-placeholder" class="player-thumb-placeholder" aria-hidden="true">
+                    <!-- Music note icon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6Z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Track info -->
+            <div class="player-info">
+                <div id="player-title" class="player-title">Choose a mood to begin</div>
+                <div id="player-artist" class="player-artist">moods*</div>
+            </div>
+
+            <!-- Progress -->
+            <div class="player-progress-row">
+                <span id="time-current" class="player-time">0:00</span>
+                <div id="progress-bar-container" class="progress-bar-container" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+                <span id="time-duration" class="player-time player-time--end">0:00</span>
+            </div>
+
+            <!-- Controls -->
+            <div class="player-controls">
+                <!-- Previous -->
+                <button id="btn-prev" class="player-btn" aria-label="Previous track">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6V6Zm3.5 6 8.5 6V6l-8.5 6Z"/>
+                    </svg>
+                </button>
+
+                <!-- Play / Pause -->
+                <button id="btn-play-pause" class="player-btn player-btn--play" aria-label="Play or pause">
+                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor" style="display: block;">
+                        <path d="M8 5v14l11-7L8 5Z"/>
+                    </svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                        <path d="M6 19h4V5H6v14Zm8-14v14h4V5h-4Z"/>
+                    </svg>
+                </button>
+
+                <!-- Next -->
+                <button id="btn-next" class="player-btn" aria-label="Next track">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 18l8.5-6L6 6v12ZM16 6v12h2V6h-2Z"/>
+                    </svg>
+                </button>
+
+                <!-- Volume -->
+                <div class="volume-control">
+                    <button id="btn-volume" class="player-btn" aria-label="Toggle mute">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.47 3.62a.75.75 0 0 1 1.28.53v15.7a.75.75 0 0 1-1.28.53L7.18 16.2H4a1 1 0 0 1-1-1v-6.4a1 1 0 0 1 1-1h3.18l4.29-4.18ZM16.23 8.13a.75.75 0 0 1 1.06 0 5.5 5.5 0 0 1 0 7.74.75.75 0 1 1-1.06-1.06 4 4 0 0 0 0-5.62.75.75 0 0 1 0-1.06Z"/>
+                        </svg>
+                    </button>
+                    <div id="volume-slider-container" class="volume-slider-container" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                        <div class="volume-slider">
+                            <div id="volume-slider-fill" class="volume-slider-fill" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         FOOTER INFO
+         ═══════════════════════════════════════════════════ -->
+    <footer class="footer-info" role="contentinfo">
+        <div id="clock-display" class="footer-time" aria-label="Current time">--:-- --</div>
+        <div id="visit-count" class="footer-visits" aria-label="Visit count">— visits</div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+         SCRIPTS (order matters: data → player → analytics → app)
+         ═══════════════════════════════════════════════════ -->
+    <script src="js/moods.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>
