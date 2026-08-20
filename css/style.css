@@ -1055,3 +1055,12 @@ img {
         opacity: 1;
     }
 }
+
+/* ─── Hide specific top links on smaller desktop/tablets to prevent overlap ─── */
+@media (max-width: 900px) {
+    .socials-dropdown-container,
+    .top-link[aria-label="Change Background"],
+    .top-link[aria-label="Provide Feedback"] {
+        display: none !important;
+    }
+}
