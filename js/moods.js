@@ -43,7 +43,7 @@ const MOODS = {
         name: 'AFTERHOURS',
         icon: '◐',
         description: 'Late drives. Nowhere to rush.',
-        playlistId: 'PLRpqCnkx0C5wk49BehMcOzQKjxrncHwZg',
+        playlistId: 'PLOXWoMH8V4yo',
         backgrounds: [
             {
                 type: 'video',
