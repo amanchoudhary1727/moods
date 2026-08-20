@@ -101,7 +101,7 @@ const MOODS = {
         name: 'ALIVE',
         icon: '☼',
         description: 'Life feels good.',
-        playlistId: 'PLRpqCnkx0C5wk49BehMcOzQKjxrncHwZg',
+        playlistId: 'PLWMx1uuTvnKU',
         backgrounds: [
             {
                 type: 'video',
