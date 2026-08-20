@@ -115,6 +115,13 @@ const Player = (() => {
     function handleError(event) {
         console.warn('[Player] YouTube error:', event.data);
         if (callbacks.onError) callbacks.onError(event.data);
+
+        // Auto-skip unplayable videos (100: Not found, 101/150: Embed restricted)
+        const unplayableErrors = [100, 101, 150];
+        if (unplayableErrors.includes(event.data)) {
+            console.log('[Player] Skipping unplayable video...');
+            next();
+        }
     }
 
     /**
