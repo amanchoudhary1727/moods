@@ -75,6 +75,9 @@ const App = (() => {
         dom.clockDisplay = document.getElementById('clock-display');
         dom.playIcon = document.getElementById('play-icon');
         dom.pauseIcon = document.getElementById('pause-icon');
+        
+        dom.btnSocials = document.getElementById('btn-socials');
+        dom.socialsDropdown = document.getElementById('socials-dropdown');
     }
 
     /**
@@ -107,6 +110,23 @@ const App = (() => {
             btnNextBg.addEventListener('click', () => {
                 if (currentMood) {
                     updateBackground(MOODS[currentMood], false, true);
+                }
+            });
+        }
+
+        // Socials Dropdown
+        if (dom.btnSocials && dom.socialsDropdown) {
+            dom.btnSocials.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = dom.socialsDropdown.classList.contains('open');
+                dom.socialsDropdown.classList.toggle('open');
+                dom.btnSocials.setAttribute('aria-expanded', !isOpen);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.socials-dropdown-container') && dom.socialsDropdown.classList.contains('open')) {
+                    dom.socialsDropdown.classList.remove('open');
+                    dom.btnSocials.setAttribute('aria-expanded', 'false');
                 }
             });
         }

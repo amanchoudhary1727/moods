@@ -259,6 +259,58 @@ img {
     opacity: 0.7;
 }
 
+/* Socials Dropdown */
+.socials-dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.socials-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 1.5rem;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+
+.socials-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.socials-dropdown a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.socials-dropdown a:hover {
+    background: var(--glow-soft);
+    color: var(--accent);
+}
+
 /* Moods toggle button */
 .moods-toggle {
     display: flex;
