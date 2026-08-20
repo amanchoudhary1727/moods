@@ -237,6 +237,8 @@ const Player = (() => {
 
         playlistDebounceTimer = setTimeout(() => {
             try {
+                if (currentPlaylistId !== playlistId) return;
+                ytPlayer.stopVideo(); // Force stop any ongoing load/buffer
                 ytPlayer.loadPlaylist({
                     list: playlistId,
                     listType: 'playlist',
