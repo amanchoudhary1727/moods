@@ -219,8 +219,10 @@ const Player = (() => {
         }
     }
 
+    let playlistDebounceTimer = null;
+
     /**
-     * Load a playlist by ID
+     * Load a playlist by ID (with debounce to handle rapid mood switching)
      * @param {string} playlistId - YouTube playlist ID
      */
     function loadPlaylist(playlistId) {
@@ -229,16 +231,22 @@ const Player = (() => {
         currentPlaylistId = playlistId;
         lastVideoIndex = -1;
 
-        try {
-            ytPlayer.loadPlaylist({
-                list: playlistId,
-                listType: 'playlist',
-                index: 0,
-                startSeconds: 0
-            });
-        } catch (e) {
-            console.warn('[Player] Could not load playlist:', e);
+        if (playlistDebounceTimer) {
+            clearTimeout(playlistDebounceTimer);
         }
+
+        playlistDebounceTimer = setTimeout(() => {
+            try {
+                ytPlayer.loadPlaylist({
+                    list: playlistId,
+                    listType: 'playlist',
+                    index: 0,
+                    startSeconds: 0
+                });
+            } catch (e) {
+                console.warn('[Player] Could not load playlist:', e);
+            }
+        }, 500); // 500ms debounce
     }
 
     /**
