@@ -12,9 +12,9 @@
 const MOODS = {
     aura: {
         name: 'AURA',
-        icon: '♛',
+        icon: '👑',
         description: 'Powerful. Energetic. Untouchable.',
-        playlistId: 'PLRpqCnkx0C5wk49BehMcOzQKjxrncHwZg',
+        playlistId: 'PLfblj2-n5H_4',
         backgrounds: [
             {
                 type: 'video',
