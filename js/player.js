@@ -33,6 +33,9 @@ const Player = (() => {
     /** Track the last known video index and ID to detect song changes */
     let lastVideoIndex = -1;
     let lastVideoId = null;
+    
+    /** Local mute state to ensure immediate UI updates */
+    let _isMuted = false;
 
     /**
      * Initialize the YouTube IFrame API
@@ -347,10 +350,11 @@ const Player = (() => {
     function toggleMute() {
         if (!ytPlayer) return;
         try {
-            if (ytPlayer.isMuted()) {
-                ytPlayer.unMute();
-            } else {
+            _isMuted = !_isMuted;
+            if (_isMuted) {
                 ytPlayer.mute();
+            } else {
+                ytPlayer.unMute();
             }
         } catch (e) { /* ignore */ }
     }
@@ -360,8 +364,7 @@ const Player = (() => {
      * @returns {boolean}
      */
     function isMuted() {
-        if (!ytPlayer) return false;
-        try { return ytPlayer.isMuted(); } catch (e) { return false; }
+        return _isMuted;
     }
 
     return {
