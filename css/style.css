@@ -905,7 +905,7 @@ img {
     .yt-player-wrap {
         width: 160px;
         height: 90px;
-        opacity: 0.1;
+        opacity: 0.00;
     }
 }
 
@@ -1056,11 +1056,9 @@ img {
     }
 }
 
-/* ─── Hide specific top links on smaller desktop/tablets to prevent overlap ─── */
+/* ─── Hide Signals menu on smaller screens to prevent overlap ─── */
 @media (max-width: 900px) {
-    .socials-dropdown-container,
-    .top-link[aria-label="Change Background"],
-    .top-link[aria-label="Provide Feedback"] {
+    .socials-dropdown-container {
         display: none !important;
     }
 }
