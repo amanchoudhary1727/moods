@@ -72,7 +72,7 @@ const MOODS = {
         name: 'AFFECTION',
         icon: '♡',
         description: 'Warm. Intimate. Dreamy.',
-        playlistId: 'PLRpqCnkx0C5wk49BehMcOzQKjxrncHwZg',
+        playlistId: 'PLFsGJcgqYpX8',
         backgrounds: [
             {
                 type: 'video',
