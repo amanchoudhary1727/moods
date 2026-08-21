@@ -57,6 +57,7 @@ const App = (() => {
         dom.bgBack = document.getElementById('bg-back');
         dom.bgFront = document.getElementById('bg-front');
         dom.bgVideo = document.getElementById('bg-video');
+        dom.bgLoader = document.getElementById('bg-loader');
         dom.moodsToggle = document.getElementById('moods-toggle');
         dom.moodsPanel = document.getElementById('moods-panel');
         dom.panelBackdrop = document.getElementById('panel-backdrop');
@@ -174,6 +175,13 @@ const App = (() => {
             });
         }
 
+        // Background video loader events
+        if (dom.bgVideo && dom.bgLoader) {
+            dom.bgVideo.addEventListener('waiting', () => dom.bgLoader.classList.add('active'));
+            dom.bgVideo.addEventListener('playing', () => dom.bgLoader.classList.remove('active'));
+            dom.bgVideo.addEventListener('canplay', () => dom.bgLoader.classList.remove('active'));
+        }
+
         // Player controls
         dom.btnPlayPause.addEventListener('click', () => Player.togglePlayPause());
         dom.btnNext.addEventListener('click', () => Player.next());
@@ -286,6 +294,7 @@ const App = (() => {
 
             // Show video
             if (dom.bgVideo.getAttribute('src') !== bg.src) {
+                dom.bgLoader.classList.add('active'); // Show loader immediately
                 dom.bgVideo.src = bg.src;
                 dom.bgVideo.load();
             }
@@ -306,8 +315,10 @@ const App = (() => {
         const bgUrl = isMobile ? bg.mobile : bg.desktop;
 
         // Preload image before transitioning
+        dom.bgLoader.classList.add('active'); // Show loader
         const img = new Image();
         img.onload = () => {
+            dom.bgLoader.classList.remove('active'); // Hide loader
             if (instant) {
                 dom.bgBack.style.backgroundImage = `url('${bgUrl}')`;
                 dom.bgFront.style.backgroundImage = `url('${bgUrl}')`;
@@ -469,6 +480,7 @@ const App = (() => {
             dom.bgFront.style.backgroundImage = 'none';
 
             if (dom.bgVideo.getAttribute('src') !== bg.src) {
+                dom.bgLoader.classList.add('active'); // Show loader
                 dom.bgVideo.src = bg.src;
                 dom.bgVideo.load();
             }

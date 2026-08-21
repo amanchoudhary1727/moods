@@ -153,6 +153,41 @@ img {
             rgba(0, 0, 0, 0.5) 100%);
 }
 
+/* ============================================================
+   BACKGROUND LOADER
+   ============================================================ */
+.bg-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.bg-loader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bg-loader .spinner {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent, rgba(255, 255, 255, 0.8));
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    filter: drop-shadow(0 0 12px var(--glow, rgba(255, 255, 255, 0.2)));
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* ─── Top Bar ─── */
 .top-bar {
     position: fixed;
