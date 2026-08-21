@@ -461,12 +461,12 @@ img {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .atelier-modal-backdrop.open {
@@ -478,20 +478,32 @@ img {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -48%) scale(0.97);
+    transform: translate(-50%, -48%) scale(0.96);
     z-index: 201;
     width: min(480px, calc(100vw - 32px));
-    border-radius: 20px;
-    background: rgba(10, 14, 20, 0.90);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(168, 192, 214, 0.15);
+    border-radius: 24px;
+
+    /* Deep frosted glass */
+    background: rgba(8, 12, 20, 0.45);
+    backdrop-filter: blur(60px) saturate(180%);
+    -webkit-backdrop-filter: blur(60px) saturate(180%);
+
+    /* Gradient border — iridescent glass edge */
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    outline: 1px solid rgba(168, 192, 214, 0.18);
+    outline-offset: -1px;
+
     box-shadow:
-        0 24px 64px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(168, 192, 214, 0.05) inset;
+        0 32px 80px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 1px 0 rgba(255, 255, 255, 0.10) inset,  /* top shimmer highlight */
+        0 -1px 0 rgba(168, 192, 214, 0.06) inset,
+        inset 0 0 80px rgba(168, 192, 214, 0.03); /* inner blue-steel ambient */
+
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .atelier-modal.open {
@@ -500,11 +512,30 @@ img {
     transform: translate(-50%, -50%) scale(1);
 }
 
+/* Top shimmer line */
+.atelier-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(168, 192, 214, 0.6) 40%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(168, 192, 214, 0.6) 60%,
+        transparent
+    );
+    border-radius: 50%;
+}
+
 .atelier-modal-inner {
-    padding: 32px;
+    padding: 36px 32px 28px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    position: relative;
 }
 
 .atelier-modal-header {
@@ -512,20 +543,21 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .atelier-modal-icon {
-    font-size: 28px;
+    font-size: 30px;
     color: #a8c0d6;
     display: block;
     margin-bottom: 4px;
     animation: atelier-pulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(168, 192, 214, 0.6));
 }
 
 @keyframes atelier-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 12px rgba(168, 192, 214, 0.6)); }
+    50% { opacity: 0.6; filter: drop-shadow(0 0 4px rgba(168, 192, 214, 0.2)); }
 }
 
 .atelier-modal-title {
@@ -533,13 +565,14 @@ img {
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 3px;
-    color: #a8c0d6;
+    color: rgba(168, 192, 214, 0.95);
     margin: 0;
+    text-shadow: 0 0 20px rgba(168, 192, 214, 0.4);
 }
 
 .atelier-modal-subtitle {
     font-size: 13px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.4);
     margin: 0;
 }
 
@@ -551,10 +584,10 @@ img {
 
 .atelier-label {
     font-family: var(--font-ui);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 1.5px;
-    color: var(--text-secondary);
+    letter-spacing: 2px;
+    color: rgba(168, 192, 214, 0.5);
     text-transform: uppercase;
 }
 
@@ -564,86 +597,123 @@ img {
 
 .atelier-input {
     width: 100%;
-    padding: 13px 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(168, 192, 214, 0.2);
-    background: rgba(255, 255, 255, 0.04);
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(168, 192, 214, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: var(--text-primary);
     font-size: 13px;
     font-family: var(--font-body);
     outline: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) inset;
 }
 
 .atelier-input::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.2);
     font-size: 12px;
 }
 
 .atelier-input:focus {
-    border-color: rgba(168, 192, 214, 0.5);
-    background: rgba(168, 192, 214, 0.05);
+    border-color: rgba(168, 192, 214, 0.45);
+    background: rgba(168, 192, 214, 0.07);
+    box-shadow:
+        0 0 0 3px rgba(168, 192, 214, 0.08),
+        0 2px 12px rgba(0, 0, 0, 0.2) inset;
 }
 
 .atelier-input.error {
-    border-color: rgba(220, 80, 80, 0.5);
+    border-color: rgba(220, 80, 80, 0.45);
+    box-shadow: 0 0 0 3px rgba(220, 80, 80, 0.08);
 }
 
 .atelier-error {
     font-size: 12px;
-    color: #e07070;
+    color: rgba(220, 110, 110, 0.9);
     min-height: 16px;
     margin: 0;
 }
 
 .atelier-disclaimer {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.2);
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .atelier-modal-footer {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: flex-end;
+    padding-top: 4px;
 }
 
 .atelier-btn {
-    padding: 11px 22px;
-    border-radius: 10px;
+    padding: 11px 24px;
+    border-radius: 12px;
     font-family: var(--font-ui);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     border: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .atelier-btn--ghost {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .atelier-btn--ghost:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .atelier-btn--primary {
-    background: rgba(168, 192, 214, 0.15);
-    border: 1px solid rgba(168, 192, 214, 0.3);
-    color: #a8c0d6;
+    background: rgba(168, 192, 214, 0.12);
+    border: 1px solid rgba(168, 192, 214, 0.28);
+    color: rgba(168, 192, 214, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+        0 0 20px rgba(168, 192, 214, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+.atelier-btn--primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transition: left 0.5s ease;
+}
+
+.atelier-btn--primary:hover::before {
+    left: 100%;
 }
 
 .atelier-btn--primary:hover {
-    background: rgba(168, 192, 214, 0.25);
-    border-color: rgba(168, 192, 214, 0.5);
+    background: rgba(168, 192, 214, 0.2);
+    border-color: rgba(168, 192, 214, 0.45);
     color: #ffffff;
+    box-shadow:
+        0 0 28px rgba(168, 192, 214, 0.18),
+        0 1px 0 rgba(255, 255, 255, 0.12) inset;
 }
+
 
 /* ─── YouTube Player (visible per API terms) ─── */
 .yt-player-wrap {
