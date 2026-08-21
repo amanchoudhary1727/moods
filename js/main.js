@@ -72,6 +72,7 @@ const App = (() => {
         dom.btnPrev = document.getElementById('btn-prev');
         dom.btnPlayPause = document.getElementById('btn-play-pause');
         dom.btnNext = document.getElementById('btn-next');
+        dom.btnShuffle = document.getElementById('btn-shuffle');
         dom.btnVolume = document.getElementById('btn-volume');
         dom.volumeSlider = document.getElementById('volume-slider-container');
         dom.volumeSliderFill = document.getElementById('volume-slider-fill');
@@ -177,6 +178,12 @@ const App = (() => {
         dom.btnPlayPause.addEventListener('click', () => Player.togglePlayPause());
         dom.btnNext.addEventListener('click', () => Player.next());
         dom.btnPrev.addEventListener('click', () => Player.prev());
+        dom.btnShuffle.addEventListener('click', () => {
+            Player.toggleShuffle();
+            const isShuffled = Player.isShuffled();
+            dom.btnShuffle.classList.toggle('active', isShuffled);
+            dom.btnShuffle.setAttribute('aria-pressed', isShuffled);
+        });
         dom.btnVolume.addEventListener('click', () => {
             Player.toggleMute();
             updateVolumeIcon();

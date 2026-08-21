@@ -37,6 +37,9 @@ const Player = (() => {
     /** Local mute state to ensure immediate UI updates */
     let _isMuted = false;
 
+    /** Local shuffle state */
+    let _isShuffled = false;
+
     /**
      * Initialize the YouTube IFrame API
      * @param {Object} cbs - Callback functions
@@ -245,6 +248,13 @@ const Player = (() => {
                     index: 0,
                     startSeconds: 0
                 });
+
+                // Re-apply shuffle if active
+                if (_isShuffled) {
+                    setTimeout(() => {
+                        try { ytPlayer.setShuffle(true); } catch (e) {}
+                    }, 500);
+                }
             } catch (e) {
                 console.warn('[Player] Could not load playlist:', e);
             }
@@ -384,6 +394,25 @@ const Player = (() => {
         return _isMuted;
     }
 
+    /**
+     * Toggle shuffle
+     */
+    function toggleShuffle() {
+        if (!ytPlayer) return;
+        try {
+            _isShuffled = !_isShuffled;
+            ytPlayer.setShuffle(_isShuffled);
+        } catch (e) { /* ignore */ }
+    }
+
+    /**
+     * Check if shuffled
+     * @returns {boolean}
+     */
+    function isShuffled() {
+        return _isShuffled;
+    }
+
     return {
         init,
         onAPIReady,
@@ -401,6 +430,8 @@ const Player = (() => {
         getDuration,
         toggleMute,
         isMuted,
+        toggleShuffle,
+        isShuffled,
         getVideoData
     };
 })();
