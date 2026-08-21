@@ -132,3 +132,31 @@ const DEFAULT_MOOD = 'aura';
 
 /** Ordered list of mood keys for display */
 const MOOD_ORDER = ['aura', 'afterhours', 'affection', 'alive'];
+
+/** All backgrounds from all moods, used by Atelier for cycling */
+const ALL_BACKGROUNDS = Object.values(MOODS).flatMap(m => m.backgrounds);
+
+/** Atelier — user's own custom mood */
+const ATELIER = {
+    name: 'ATELIER',
+    icon: '✦',
+    description: 'Your playlist. Your world.',
+    theme: {
+        accent: '#a8c0d6',
+        accentAlt: '#6a93b0',
+        accentRgb: '168, 192, 214',
+        accentText: '#ffffff',
+        glow: 'rgba(168, 192, 214, 0.35)',
+        glowSoft: 'rgba(168, 192, 214, 0.15)',
+        surface: 'rgba(8, 12, 18, 0.30)',
+        surfaceBorder: 'rgba(168, 192, 214, 0.12)',
+        textPrimary: '#ffffff',
+        textSecondary: 'rgba(255, 255, 255, 0.6)'
+    }
+};
+
+/** localStorage keys for Atelier */
+const ATELIER_STORAGE = {
+    playlistId: 'atelier_playlist_id',
+    bgIndex:    'atelier_bg_index'
+};

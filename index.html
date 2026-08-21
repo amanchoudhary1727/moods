@@ -116,6 +116,46 @@
             <span class="mood-icon" aria-hidden="true">☼</span>
             <span class="mood-label">ALIVE</span>
         </button>
+
+        <button class="mood-item mood-item--atelier" data-mood="atelier" role="menuitem">
+            <span class="mood-icon" aria-hidden="true">✦</span>
+            <span class="mood-label">ATELIER</span>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         ATELIER MODAL
+         ═══════════════════════════════════════════════════ -->
+    <div id="atelier-modal-backdrop" class="atelier-modal-backdrop" aria-hidden="true"></div>
+    <div id="atelier-modal" class="atelier-modal" role="dialog" aria-modal="true" aria-labelledby="atelier-modal-title" aria-hidden="true">
+        <div class="atelier-modal-inner">
+            <div class="atelier-modal-header">
+                <span class="atelier-modal-icon" aria-hidden="true">✦</span>
+                <h2 id="atelier-modal-title" class="atelier-modal-title">ATELIER</h2>
+                <p class="atelier-modal-subtitle">Your playlist. Your world.</p>
+            </div>
+
+            <div class="atelier-modal-body">
+                <label for="atelier-playlist-input" class="atelier-label">YouTube Playlist Link</label>
+                <div class="atelier-input-wrap">
+                    <input
+                        id="atelier-playlist-input"
+                        class="atelier-input"
+                        type="url"
+                        placeholder="https://www.youtube.com/playlist?list=..."
+                        autocomplete="off"
+                        spellcheck="false"
+                    />
+                </div>
+                <p id="atelier-error" class="atelier-error" aria-live="polite"></p>
+                <p class="atelier-disclaimer">⚠ Public YouTube playlists only — YouTube Music, Spotify, and private links won't work.</p>
+            </div>
+
+            <div class="atelier-modal-footer">
+                <button id="atelier-cancel" class="atelier-btn atelier-btn--ghost">Cancel</button>
+                <button id="atelier-submit" class="atelier-btn atelier-btn--primary">Enter the Vibe</button>
+            </div>
+        </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════
